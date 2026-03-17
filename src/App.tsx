@@ -204,11 +204,10 @@ function MainApp() {
   const currentRecords = safeHistory.filter(item => item && item.timestamp && isSameDay(currentDate, item.timestamp)).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   
   const consumed = currentRecords.reduce((sum, item) => sum + (item.calories || 0), 0);
-  const consumedProtein = currentRecords.reduce((sum, item) => sum + (item.protein || 0), 0);
-  const consumedCarbs = currentRecords.reduce((sum, item) => sum + (item.carbs || 0), 0);
-  const consumedFat = currentRecords.reduce((sum, item) => sum + (item.fat || 0), 0);
+  const consumedProtein = parseFloat(currentRecords.reduce((sum, item) => sum + (item.protein || 0), 0).toFixed(1));
+  const consumedCarbs = parseFloat(currentRecords.reduce((sum, item) => sum + (item.carbs || 0), 0).toFixed(1));
+  const consumedFat = parseFloat(currentRecords.reduce((sum, item) => sum + (item.fat || 0), 0).toFixed(1));
   
-  // --- 步数与热量抵扣核心逻辑 ---
   const currentSteps = stepLog[currentDateKey] || 0;
   // 运动消耗公式：步数 * 0.04 * (体重 / 60) -> 比如60kg的人走10000步消耗400大卡
   const stepCaloriesBurned = Math.round(currentSteps * 0.04 * (profile.weight / 60));
